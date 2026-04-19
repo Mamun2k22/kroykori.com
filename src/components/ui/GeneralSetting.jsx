@@ -81,7 +81,7 @@ export default function GeneralSetting() {
             value={form.email}
             onChange={onChange}
             className="mt-1 w-full rounded-xl border border-slate-200 px-4 py-2.5 outline-none focus:ring-2 focus:ring-slate-200"
-            placeholder="support@shoukhinshop.com"
+            placeholder="support@kroykori.com.com"
           />
         </div>
 

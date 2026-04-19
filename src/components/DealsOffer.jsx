@@ -76,7 +76,7 @@ const DealsOffer = () => {
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-7">
               <div>
                 <p className="text-xs tracking-[0.25em] uppercase text-white/70">
-                  Why people love shoukhinshop
+                  Why people love kroykori.com
                 </p>
                 <h3 className="text-xl md:text-2xl font-semibold text-white mt-1">
                   Elegance in every deal

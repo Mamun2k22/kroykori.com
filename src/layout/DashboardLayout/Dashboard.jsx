@@ -301,12 +301,12 @@ export default function Dashboard() {
             <div className="hidden lg:block">
               <Link to="/" className="flex items-center gap-2 ">
                 <img
-                  src="https://img.freepik.com/premium-vector/modern-technology-logo-blue-circle-futuristic-digital-symbol_1274917-4950.jpg?semt=ais_hybrid&w=740&q=80"
+                  src="https://i.ibb.co.com/HDL0VDMP/logo.jpg"
                   alt="Web Defend IT"
                   className="h-10 w-10 rounded-full object-cover"
                 />
                 <span className="hidden sm:block font-semibold tracking-tight">
-                  Shoukhinshop
+                  Kroykori.com
                 </span>
               </Link>
             </div>

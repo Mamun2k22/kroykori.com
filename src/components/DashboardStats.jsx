@@ -38,7 +38,7 @@ const DashboardStats = () => {
   <div className="relative z-10">
     <h1 className="text-3xl sm:text-4xl font-semibold drop-shadow">
       Welcome Back{", "}
-      <span className="font-bold">Mr. Dianne Russell</span>
+      <span className="font-bold">Kroykori.com</span>
     </h1>
     <p className="text-base mt-2 opacity-95">
       Manage users, products, and orders

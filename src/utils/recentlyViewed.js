@@ -1,4 +1,4 @@
-const KEY = "shoukhinshop_recently_viewed_v1";
+const KEY = "kroykori.com_recently_viewed_v1";
 
 export function getRecentlyViewed() {
   try {

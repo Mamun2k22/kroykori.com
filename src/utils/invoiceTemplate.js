@@ -1,16 +1,16 @@
 // utils/invoiceTemplate.js
 export function printBrandedInvoice(inv, opts = {}) {
   const brand = {
-    name: "shoukhinshop",
+    name: "kroykori.com",
     slogan: "",
     address: "EI Mercado,114, Begum Rokeya Avenue, Mirpur-10, Dhaka, Bangladesh",
     phone: "017XXXXXXXX",
-    email: "info@shoukhinshop.com",
+    email: "info@kroykori.com.com",
     bin: "BIN: —",
     tin: "TIN: —",
-    website: "https://shoukhinshoplifestyle.com",
+    website: "https://kroykori.comlifestyle.com",
     // TODO: নিজের লোগোর স্থায়ী URL দিন (CDN/ /uploads path)
-    logo: opts.logo || "https://shoukhinshoplifestyle.com/assets/logo-Cal7droB.png",
+    logo: opts.logo || "https://kroykori.comlifestyle.com/assets/logo-Cal7droB.png",
     color: "#F57C00", // brand orange
     ...opts.brand,
   };
