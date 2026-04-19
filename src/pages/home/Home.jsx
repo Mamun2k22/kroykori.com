@@ -43,7 +43,7 @@ const Home = () => {
       {/* <MarqueeRtl /> */}
       {/* <HomeMarqueeBar /> */}
       <ProductCategory />
-      <BannerSection />
+      {/* <BannerSection /> */}
    
       <PopularProduct />
 
