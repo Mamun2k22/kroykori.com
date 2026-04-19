@@ -51,12 +51,12 @@ const Home = () => {
 
       {/* <FeaturesBar /> */}
   
-       <FourBanner />
+       {/* <FourBanner /> */}
          <DailyBestSeller />
 
-      <div className="mt-7">
+      {/* <div className="mt-7">
         <OurBrands />
-      </div>
+      </div> */}
     
          <RecentlyViewed />
     </div>
