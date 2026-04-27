@@ -46,7 +46,7 @@ const ProductCategory = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-6">
           <h2 className="text-2xl font-semibold text-slate-900">
-            Top Categories
+            Product Categories
           </h2>
           <p className="mt-1 text-sm text-gray-500">
             Browse popular categories
@@ -65,7 +65,7 @@ const ProductCategory = () => {
                 className="group text-center"
               >
                 {/* Circle Image */}
-                <div className="mx-auto w-24 h-24 rounded-full overflow-hidden bg-white shadow-sm border border-[#f890bc] 
+                <div className="mx-auto w-24 h-24 rounded-full overflow-hidden bg-white  
                                 flex items-center justify-center transition 
                                 group-hover:shadow-md group-hover:scale-105 duration-300">
                   <img

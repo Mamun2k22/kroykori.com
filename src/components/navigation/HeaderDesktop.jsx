@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FiSearch, FiUser, FiShoppingBag, FiChevronDown } from "react-icons/fi";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { RiCustomerService2Line } from "react-icons/ri";
+import logo from "../../assets/images/logo.png";
 import settingsApi, {
   fetchPublicSettings,
   fetchPublicHeaderSettings,
@@ -182,20 +183,22 @@ const HeaderDesktop = ({
             {/* LEFT: logo */}
 <Link to="/" className="flex items-center gap-3 min-w-[180px]">
   {siteLogo && (
-    <img
-      className="h-10 w-auto drop-shadow-sm"
-      src={logoSrc}
-      alt={siteBrand}
-      loading="lazy"
-      onError={(e) => {
-        e.currentTarget.style.display = "none";
-      }}
-    />
+    // <img
+    //   className="h-10 w-auto drop-shadow-sm"
+    //   src={logoSrc}
+    //   alt={siteBrand}
+    //   loading="lazy"
+    //   onError={(e) => {
+    //     e.currentTarget.style.display = "none";
+    //   }}
+    // />
+    <img className="h-14 w-auto"
+    src={logo} alt="" srcset="" />
   )}
 
-<span className="text-xl font-extrabold bg-gradient-to-r from-yellow-400 to-red-700 bg-clip-text text-transparent">
+{/* <span className="text-xl font-extrabold bg-gradient-to-r from-yellow-400 to-red-700 bg-clip-text text-transparent">
   Kroykori
-</span>
+</span> */}
 </Link>
 
             {/* CENTER: big search */}

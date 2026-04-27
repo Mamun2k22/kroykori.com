@@ -52,7 +52,7 @@ const Home = () => {
       {/* <FeaturesBar /> */}
   
        {/* <FourBanner /> */}
-         <DailyBestSeller />
+         {/* <DailyBestSeller /> */}
 
       {/* <div className="mt-7">
         <OurBrands />

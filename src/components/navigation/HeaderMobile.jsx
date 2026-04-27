@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import settingsApi from "../../hooks/settingsApi.jsx"; 
+import logo from "../../assets/images/logo.png";
 import {
   FiSearch,
   FiMenu,
@@ -141,7 +142,7 @@ function HeaderMobile({
   return (
     <div className="md:hidden block">
       {/* Top bar */}
-      <div className="relative py-3">
+      <div className="relative">
         <div className="flex justify-between items-center gap-2 w-full px-3.5">
           <button
             type="button"
@@ -163,12 +164,14 @@ function HeaderMobile({
   className="flex items-center justify-center w-[140px] sm:w-[160px] -ml-1"
 >
   {siteLogo ? (
-    <img
-      className="h-8 w-full object-contain"   // ✅ fixed height + contain
-      src={`${settingsApi.API_BASE}${siteLogo}`}
-      alt={siteBrand}
-      loading="lazy"
-    />
+    // <img
+    //   className="h-8 w-full object-contain"   // ✅ fixed height + contain
+    //   src={`${settingsApi.API_BASE}${siteLogo}`}
+    //   alt={siteBrand}
+    //   loading="lazy"
+    // />
+    <img className="h-16 w-full object-contain"
+    src={logo} alt="" srcset="" />
   ) : (
     <span className="text-black font-semibold tracking-wide text-sm truncate">
       {siteBrand}

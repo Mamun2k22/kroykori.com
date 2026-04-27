@@ -1,5 +1,6 @@
-// AdminSubcategories.jsx
 import React, { useEffect, useMemo, useState } from "react";
+import CategoryModal from "./CategoryModal";
+import SubcategoryModal from "./SubcategoryModal";
 import {
   FiRefreshCw,
   FiPlus,
@@ -12,8 +13,6 @@ import {
   FiChevronUp,
   FiFolder,
   FiImage,
-  FiX,
-  FiUploadCloud,
 } from "react-icons/fi";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -24,20 +23,20 @@ const AdminSubcategories = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [expandedCategories, setExpandedCategories] = useState({});
 
-  const [subModalOpen, setSubModalOpen] = useState(false);
-  const [subModalMode, setSubModalMode] = useState("add");
-  const [selectedParent, setSelectedParent] = useState(null);
-  const [editingSubcategory, setEditingSubcategory] = useState(null);
-  const [subFormData, setSubFormData] = useState({
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
+  const [categoryModalMode, setCategoryModalMode] = useState("add");
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [categoryFormData, setCategoryFormData] = useState({
     name: "",
     image: null,
     imagePreview: "",
   });
 
-  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
-  const [categoryModalMode, setCategoryModalMode] = useState("add");
-  const [editingCategory, setEditingCategory] = useState(null);
-  const [categoryFormData, setCategoryFormData] = useState({
+  const [subModalOpen, setSubModalOpen] = useState(false);
+  const [subModalMode, setSubModalMode] = useState("add");
+  const [selectedParent, setSelectedParent] = useState(null);
+  const [editingSubcategory, setEditingSubcategory] = useState(null);
+  const [subFormData, setSubFormData] = useState({
     name: "",
     image: null,
     imagePreview: "",
@@ -55,7 +54,7 @@ const AdminSubcategories = () => {
       const data = await res.json();
       setCategories(Array.isArray(data) ? data : []);
     } catch (error) {
-      console.error("Failed to fetch categories:", error);
+      console.error(error);
       toast.error("Failed to load categories");
     } finally {
       setLoading(false);
@@ -376,229 +375,6 @@ const AdminSubcategories = () => {
     );
   }, [categories]);
 
-  const CategoryModal = () => (
-    <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-all duration-300 ${
-        categoryModalOpen ? "opacity-100 visible" : "opacity-0 invisible"
-      }`}
-      onClick={() => setCategoryModalOpen(false)}
-    >
-      <div
-        className="bg-white rounded-3xl w-full max-w-md mx-4 shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <div>
-            <h3 className="text-xl font-bold text-gray-900">
-              {categoryModalMode === "add" ? "Add Category" : "Edit Category"}
-            </h3>
-            <p className="text-sm text-gray-500 mt-1">
-              Manage main product category
-            </p>
-          </div>
-
-          <button
-            onClick={() => setCategoryModalOpen(false)}
-            className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition"
-          >
-            <FiX className="text-gray-500" />
-          </button>
-        </div>
-
-        <form onSubmit={handleSaveCategory} className="p-6 space-y-5">
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Category Name
-            </label>
-            <input
-              type="text"
-              value={categoryFormData.name}
-              onChange={(e) =>
-                setCategoryFormData({
-                  ...categoryFormData,
-                  name: e.target.value,
-                })
-              }
-              placeholder="e.g., Women"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 outline-none transition"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Category Image
-            </label>
-
-            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
-              <FiUploadCloud className="text-2xl text-gray-400 mb-2" />
-              <span className="text-xs text-gray-500">
-                Click to upload image
-              </span>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleImageChange(e, "category")}
-                className="hidden"
-              />
-            </label>
-
-            {categoryFormData.imagePreview && (
-              <div className="mt-3 flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-200">
-                <img
-                  src={categoryFormData.imagePreview}
-                  alt="Preview"
-                  className="w-12 h-12 rounded-xl object-cover border"
-                />
-                <div className="text-xs text-gray-600 truncate">
-                  {categoryFormData.image
-                    ? categoryFormData.image.name
-                    : "Current image"}
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="flex gap-3 pt-3">
-            <button
-              type="button"
-              onClick={() => setCategoryModalOpen(false)}
-              className="flex-1 py-3 rounded-xl border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition"
-            >
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              disabled={saving}
-              className="flex-1 py-3 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition disabled:opacity-60 flex items-center justify-center gap-2"
-            >
-              {saving && <FiRefreshCw className="animate-spin" />}
-              {saving
-                ? "Saving..."
-                : categoryModalMode === "add"
-                ? "Add Category"
-                : "Update"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-
-  const SubcategoryModal = () => (
-    <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-all duration-300 ${
-        subModalOpen ? "opacity-100 visible" : "opacity-0 invisible"
-      }`}
-      onClick={() => setSubModalOpen(false)}
-    >
-      <div
-        className="bg-white rounded-3xl w-full max-w-md mx-4 shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <div>
-            <h3 className="text-xl font-bold text-gray-900">
-              {subModalMode === "add"
-                ? "Add Subcategory"
-                : "Edit Subcategory"}
-            </h3>
-            <p className="text-sm text-gray-500 mt-1">
-              in {selectedParent?.name}
-            </p>
-          </div>
-
-          <button
-            onClick={() => setSubModalOpen(false)}
-            className="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition"
-          >
-            <FiX className="text-gray-500" />
-          </button>
-        </div>
-
-        <form onSubmit={handleSaveSubcategory} className="p-6 space-y-5">
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Subcategory Name
-            </label>
-
-            <input
-              type="text"
-              value={subFormData.name}
-              onChange={(e) =>
-                setSubFormData({
-                  ...subFormData,
-                  name: e.target.value,
-                })
-              }
-              placeholder="e.g., Wireless Headphones"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 outline-none transition"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Subcategory Image
-            </label>
-
-            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
-              <FiUploadCloud className="text-2xl text-gray-400 mb-2" />
-              <span className="text-xs text-gray-500">
-                Click to upload image
-              </span>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleImageChange(e, "subcategory")}
-                className="hidden"
-              />
-            </label>
-
-            {subFormData.imagePreview && (
-              <div className="mt-3 flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-200">
-                <img
-                  src={subFormData.imagePreview}
-                  alt="Preview"
-                  className="w-12 h-12 rounded-xl object-cover border"
-                />
-                <div className="text-xs text-gray-600 truncate">
-                  {subFormData.image
-                    ? subFormData.image.name
-                    : "Current image"}
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="flex gap-3 pt-3">
-            <button
-              type="button"
-              onClick={() => setSubModalOpen(false)}
-              className="flex-1 py-3 rounded-xl border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition"
-            >
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              disabled={saving}
-              className="flex-1 py-3 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition disabled:opacity-60 flex items-center justify-center gap-2"
-            >
-              {saving && <FiRefreshCw className="animate-spin" />}
-              {saving
-                ? "Saving..."
-                : subModalMode === "add"
-                ? "Add"
-                : "Update"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-
   const CategoryCard = ({ category }) => {
     const isExpanded = expandedCategories[category._id];
     const subcategories = category.subcategories || [];
@@ -619,15 +395,13 @@ const AdminSubcategories = () => {
             <p className="text-white/80 text-xs">Slug: {category.slug}</p>
           </div>
 
-          <div className="absolute top-3 right-3 flex items-center gap-2">
-            <button
-              onClick={() => openAddSubcategoryModal(category)}
-              className="bg-white/95 backdrop-blur text-indigo-600 text-sm font-semibold px-3 py-1.5 rounded-full shadow flex items-center gap-1 hover:bg-indigo-50 transition"
-            >
-              <FiPlus className="text-xs" />
-              Add Sub
-            </button>
-          </div>
+          <button
+            onClick={() => openAddSubcategoryModal(category)}
+            className="absolute top-3 right-3 bg-white/95 backdrop-blur text-indigo-600 text-sm font-semibold px-3 py-1.5 rounded-full shadow flex items-center gap-1 hover:bg-indigo-50 transition"
+          >
+            <FiPlus className="text-xs" />
+            Add Sub
+          </button>
         </div>
 
         <div className="p-5">
@@ -709,9 +483,7 @@ const AdminSubcategories = () => {
 
                     <div className="flex items-center gap-1 opacity-70 group-hover:opacity-100 transition">
                       <button
-                        onClick={() =>
-                          openEditSubcategoryModal(category, sub)
-                        }
+                        onClick={() => openEditSubcategoryModal(category, sub)}
                         className="w-8 h-8 rounded-lg bg-white text-indigo-600 hover:bg-indigo-50 flex items-center justify-center transition shadow-sm"
                         title="Edit"
                       >
@@ -744,6 +516,7 @@ const AdminSubcategories = () => {
                     alt={sub.name}
                     className="w-8 h-8 rounded-lg object-cover"
                   />
+
                   <span className="text-sm font-medium text-gray-700">
                     {sub.name}
                   </span>
@@ -875,7 +648,9 @@ const AdminSubcategories = () => {
           </h3>
 
           <p className="text-gray-400 text-sm mt-1">
-            {searchTerm ? "Try a different search term" : "No categories available"}
+            {searchTerm
+              ? "Try a different search term"
+              : "No categories available"}
           </p>
 
           {!searchTerm && (
@@ -896,8 +671,29 @@ const AdminSubcategories = () => {
         </div>
       )}
 
-      <CategoryModal />
-      <SubcategoryModal />
+      <CategoryModal
+        open={categoryModalOpen}
+        mode={categoryModalMode}
+        formData={categoryFormData}
+        setFormData={setCategoryFormData}
+        saving={saving}
+        onClose={() => setCategoryModalOpen(false)}
+        onSubmit={handleSaveCategory}
+        onImageChange={handleImageChange}
+      />
+
+      <SubcategoryModal
+        open={subModalOpen}
+        mode={subModalMode}
+        selectedParent={selectedParent}
+        formData={subFormData}
+        setFormData={setSubFormData}
+        saving={saving}
+        onClose={() => setSubModalOpen(false)}
+        onSubmit={handleSaveSubcategory}
+        onImageChange={handleImageChange}
+      />
+
       <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );

@@ -84,7 +84,7 @@ export default function NewFooter() {
                 <img
                   src={logoSrc}
                   alt={`${CONTACT.company} logo`}
-                  className="h-20 w-auto"
+                  className="h-10 w-auto"
                   onError={(e) => (e.currentTarget.src = logo)}
                 />
                 <div className="leading-tight">
