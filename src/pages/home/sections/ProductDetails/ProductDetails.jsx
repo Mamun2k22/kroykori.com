@@ -339,7 +339,7 @@ const handleAddToCart = () => {
                   </div>
 
                   <div className="flex items-center gap-2 mt-1">
-                    <div className="flex items-center text-yellow-400 text-sm">
+                    {/* <div className="flex items-center text-yellow-400 text-sm">
                       {[...Array(5)].map((_, i) =>
                         i < Math.round(ratingValue) ? (
                           <FaStar key={i} />
@@ -350,7 +350,7 @@ const handleAddToCart = () => {
                     </div>
                     <span className="text-slate-600 text-sm">
                       {ratingValue.toFixed(1)} rating
-                    </span>
+                    </span> */}
                     {inStock ? (
                       <span className="ml-2 inline-flex items-center rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold px-2.5 py-1">
                         In stock
@@ -599,7 +599,7 @@ const handleAddToCart = () => {
               {[
                 { key: "description", label: "Description" },
                 { key: "additional", label: "Product Specifications" },
-                { key: "reviews", label: "Reviews" },
+                // { key: "reviews", label: "Reviews" },
               ].map((t) => {
                 const active = activeTab === t.key;
                 return (

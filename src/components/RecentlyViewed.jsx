@@ -39,74 +39,95 @@ export default function RecentlyViewed({ title = "Recently Viewed" }) {
   if (!canShow) return null;
 
   return (
-    <div className="my-6 rounded-sm border bg-white">
-      <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b">
-        <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
-        <button
-          onClick={() => clearRecentlyViewed()}
-          className="text-xs text-gray-500 hover:text-rose-600"
-          title="Clear"
-        >
-          Clear
-        </button>
+ <section className="my-8 rounded-3xl border border-gray-100 bg-gradient-to-br from-white to-indigo-50/40 shadow-sm">
+    <div className="flex items-center justify-between px-5 sm:px-7 py-5">
+      <div>
+        <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+        <p className="text-sm text-gray-500">Your recently explored products</p>
       </div>
 
-      <div className="relative">
-        {/* Left */}
-        <button
-          onClick={() => scrollByCard(-1)}
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full border bg-white shadow-sm hover:bg-gray-50 grid place-items-center"
-          aria-label="Scroll left"
-        >
-          <FiChevronLeft />
-        </button>
+      <button
+        onClick={() => {
+          clearRecentlyViewed();
+          setItems([]);
+        }}
+        className="rounded-full bg-rose-50 px-4 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-100 transition"
+      >
+        Clear
+      </button>
+    </div>
 
-        {/* Track */}
-        <div
-          ref={trackRef}
-          className="flex gap-4 overflow-x-auto scroll-smooth px-14 py-5"
-          style={{ scrollbarWidth: "none" }}
-        >
-          {list.map((p) => {
-            const img = p?.productImage;
-            const to = p?.slug ? `/product-details/${p._id}` : `/product-details/${p._id}`;
-            return (
-              <Link
-                to={to}
-                key={p._id}
-                className="w-[170px] shrink-0 rounded-xl border hover:shadow-md transition bg-white"
-                title={p?.productName}
-              >
-                <div className="h-28 w-full rounded-t-xl bg-gray-50 overflow-hidden grid place-items-center">
-                  {img ? (
-                    <img src={img} alt={p.productName} className="h-full w-full object-contain" />
-                  ) : (
-                    <div className="text-xs text-gray-400">No image</div>
-                  )}
-                </div>
+    <div className="relative px-2 pb-6">
+      <button
+        onClick={() => scrollByCard(-1)}
+        className="absolute left-3 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-gray-100 bg-white/90 shadow-lg backdrop-blur hover:bg-indigo-600 hover:text-white transition"
+        aria-label="Scroll left"
+      >
+        <FiChevronLeft size={22} />
+      </button>
 
-                <div className="p-3">
-                  <p className="text-sm font-medium text-gray-900 line-clamp-2">
-                    {p?.productName || "Unnamed"}
-                  </p>
-                  <p className="mt-1 text-sm font-semibold text-indigo-600">
+      <div
+        ref={trackRef}
+        className="flex gap-5 overflow-x-auto scroll-smooth px-14 py-3 [&::-webkit-scrollbar]:hidden"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {list.map((p) => {
+          const img = p?.productImage;
+          const to = `/product-details/${p._id}`;
+
+          return (
+            <Link
+              to={to}
+              key={p._id}
+              className="group w-[190px] shrink-0 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              title={p?.productName}
+            >
+              <div className="relative h-36 bg-gray-50">
+                {img ? (
+                  <img
+                    src={img}
+                    alt={p.productName}
+                    className="h-full w-full object-contain p-4 transition-transform duration-300 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="grid h-full place-items-center text-xs text-gray-400">
+                    No image
+                  </div>
+                )}
+
+                <span className="absolute left-3 top-3 rounded-full bg-indigo-600 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
+                  Viewed
+                </span>
+              </div>
+
+              <div className="p-4">
+                <p className="min-h-[40px] text-sm font-semibold leading-5 text-gray-900 line-clamp-2 group-hover:text-indigo-600">
+                  {p?.productName || "Unnamed"}
+                </p>
+
+                <div className="mt-3 flex items-center justify-between">
+                  <p className="text-base font-extrabold text-indigo-600">
                     {fmtBDT(p?.price || 0)}
                   </p>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
 
-        {/* Right */}
-        <button
-          onClick={() => scrollByCard(1)}
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full border bg-white shadow-sm hover:bg-gray-50 grid place-items-center"
-          aria-label="Scroll right"
-        >
-          <FiChevronRight />
-        </button>
+                  <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-[11px] font-semibold text-indigo-600">
+                    View
+                  </span>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
       </div>
+
+      <button
+        onClick={() => scrollByCard(1)}
+        className="absolute right-3 top-1/2 z-10 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-gray-100 bg-white/90 shadow-lg backdrop-blur hover:bg-indigo-600 hover:text-white transition"
+        aria-label="Scroll right"
+      >
+        <FiChevronRight size={22} />
+      </button>
     </div>
+  </section>
   );
 }
