@@ -22,6 +22,7 @@ import FourBanner from "../../components/FourBanner";
 import { Ban } from "lucide-react";
 import BannerSection from "../../components/BannerSection";
 import MarqueeRtl from "../../components/MarqueeRtl";
+import AutoScrollingProducts from "../../components/AutoScrollingProducts";
 
 const Home = () => {
   return (
@@ -42,12 +43,14 @@ const Home = () => {
       <HeroSlider />
       {/* <MarqueeRtl /> */}
       {/* <HomeMarqueeBar /> */}
-      <ProductCategory />
+       <ProductCategory />
+         <AutoScrollingProducts />
+     
       {/* <BannerSection /> */}
    
       <PopularProduct />
 
-   
+
 
       {/* <FeaturesBar /> */}
   

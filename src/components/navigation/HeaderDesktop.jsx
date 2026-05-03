@@ -1,5 +1,6 @@
 // components/navigation/HeaderDesktop.jsx
 import React, { useEffect, useRef, useState, memo } from "react";
+import { ShoppingCart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiSearch, FiUser, FiShoppingBag, FiChevronDown } from "react-icons/fi";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
@@ -273,17 +274,17 @@ const HeaderDesktop = ({
 
             {/* RIGHT: cart + user */}
             <div className="flex items-center gap-5 text-black min-w-[180px] justify-end">
-              <Link
-                to="/cart"
-                aria-label="Cart"
-                className="flex items-center gap-2 relative"
-              >
-                <FiShoppingBag className="h-5 w-5" />
-                <span className="text-sm font-medium">Cart</span>
-                <span className="absolute -top-2 -right-3 text-[10px] min-w-[18px] h-[18px] px-1 rounded-full bg-[#F77426] text-[#f9fafc] font-bold flex items-center justify-center">
-                  {cart?.length ?? 0}
-                </span>
-              </Link>
+<Link to="/cart" className="relative">
+  <div className="w-9 h-9 hover:bg-gray-100 rounded-full flex items-center justify-center relative">
+    
+    <ShoppingCart className="text-black" size={20} />
+
+    <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+      {cart?.length ?? 0}
+    </span>
+
+  </div>
+</Link>
 
               {/* <Link
                 to={user ? "/dashboard/profile" : "/login"}
