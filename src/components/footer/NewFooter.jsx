@@ -70,7 +70,7 @@ const PAYMENT_METHODS = [
 ];
 
   return (
-    <footer className="relative bg-gradient-to-b from-gray-50 to-white text-gray-700 font-poppins text-[14px] border-t border-gray-200">
+    <footer className="relative bg-white text-gray-700 font-poppins text-[14px] border-t border-gray-200">
       <div className="relative z-10">
         <div className="mx-auto max-w-7xl px-4 py-10 md:py-12">
           <div className="grid gap-8 lg:grid-cols-[1.55fr_.75fr_.85fr_1fr]">
