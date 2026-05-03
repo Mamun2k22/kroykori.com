@@ -251,7 +251,7 @@ const [catExpanded, setCatExpanded] = useState(false);
             <Slider {...settings}>
               {slides.map((s, i) => (
                 <div key={s.id} className="hero-slide">
-                  <Link to={s.to} aria-label={s.title || `Banner ${i + 1}`}>
+             
                     <img
                       src={s.img}
                       alt={s.title || `Banner ${i + 1}`}
@@ -262,7 +262,7 @@ const [catExpanded, setCatExpanded] = useState(false);
                         e.currentTarget.style.opacity = "0";
                       }}
                     />
-                  </Link>
+                
                 </div>
               ))}
             </Slider>
