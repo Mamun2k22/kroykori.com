@@ -67,6 +67,8 @@ export default function ProductDetails() {
     if (product?._id) addRecentlyViewed(product);
   }, [product?._id]);
 
+
+  
   useEffect(() => {
     if (!_id) return;
 
@@ -94,6 +96,13 @@ export default function ProductDetails() {
         : [],
     [sizeWeight],
   );
+
+
+  useEffect(() => {
+  if (sizes.length === 1) {
+    setSelectedSize(sizes[0]);
+  }
+}, [sizes]);
   const chestSizes = useMemo(
     () =>
       Array.isArray(chest)
@@ -159,27 +168,36 @@ export default function ProductDetails() {
       toast.error("Failed to add product to cart. Please try again."),
   });
 
-    const ensureSelections = () => {
-    if (sizes.length > 0 && !selectedSize) {
-      toast.error("দয়া করে সাইজ নির্বাচন করুন");
-      return false;
-    }
-    if (chestSizes.length > 0 && !selectedChest) {
-      toast.error("দয়া করে বুকের মাপ নির্বাচন করুন");
-      return false;
-    }
-    if (waistSizes.length > 0 && !selectedWaist) {
-      toast.error("দয়া করে কোমরের মাপ নির্বাচন করুন");
-      return false;
-    }
-    if (color.length > 0 && !selectedColor) {
-      toast.error("দয়া করে রং নির্বাচন করুন");
-      return false;
-    }
-    return true;
-  };
+const ensureSelections = () => {
+  if (sizes.length > 1 && !selectedSize) {
+    toast.error("দয়া করে সাইজ নির্বাচন করুন");
+    return false;
+  }
+
+  if (chestSizes.length > 1 && !selectedChest) {
+    toast.error("দয়া করে বুকের মাপ নির্বাচন করুন");
+    return false;
+  }
+
+  if (waistSizes.length > 1 && !selectedWaist) {
+    toast.error("দয়া করে কোমরের মাপ নির্বাচন করুন");
+    return false;
+  }
+
+  if (color.length > 1 && !selectedColor) {
+    toast.error("দয়া করে রং নির্বাচন করুন");
+    return false;
+  }
+
+  return true;
+};
 
 const handleAddToCart = () => {
+  if (!inStock) {
+    toast.error("এই প্রোডাক্টটি স্টকে নেই");
+    return;
+  }
+
   if (!ensureSelections()) return;
 
   addToCart({
@@ -566,24 +584,29 @@ const handleAddToCart = () => {
 
                 {/* Actions (desktop/tablet) */}
                 <div className="mt-7 hidden sm:flex flex-wrap gap-3">
-                  <button
-                    onClick={handleAddToCart}
-                    className="px-4 py-[8px] rounded-md font-semibold text-white
-                               bg-gradient-to-r from-fuchsia-600 to-indigo-600
-                               shadow-sm hover:shadow-md hover:opacity-95 active:scale-[.99]
-                               transition"
-                  >
-                    Add to Cart
-                  </button>
-                  <button
-                    onClick={handleBuyNowClick}
-                    className="px-4 py-[8px] rounded-md font-semibold text-white
-                               bg-gradient-to-r from-blue-600 to-cyan-600
-                               shadow-sm hover:shadow-md hover:opacity-95 active:scale-[.99]
-                               transition"
-                  >
-                    Buy Now
-                  </button>
+               <button
+  onClick={handleAddToCart}
+  disabled={!inStock}
+  className={`px-4 py-[8px] rounded-md font-semibold text-white
+    ${!inStock 
+      ? "bg-gray-400 cursor-not-allowed" 
+      : "bg-gradient-to-r from-fuchsia-600 to-indigo-600"}
+  `}
+>
+  Add to Cart
+</button>
+
+<button
+  onClick={handleBuyNowClick}
+  disabled={!inStock}
+  className={`px-4 py-[8px] rounded-md font-semibold text-white
+    ${!inStock 
+      ? "bg-gray-400 cursor-not-allowed" 
+      : "bg-gradient-to-r from-blue-600 to-cyan-600"}
+  `}
+>
+  Buy Now
+</button>
                 </div>
 
                 <p className="mt-4 text-xs text-slate-500 sm:hidden">
@@ -598,7 +621,7 @@ const handleAddToCart = () => {
             <div className="flex flex-wrap gap-2 p-3 sm:p-4 border-b border-slate-100 bg-slate-50">
               {[
                 { key: "description", label: "Description" },
-                { key: "additional", label: "Product Specifications" },
+                { key: "additional", label: "Specifications" },
                 // { key: "reviews", label: "Reviews" },
               ].map((t) => {
                 const active = activeTab === t.key;
