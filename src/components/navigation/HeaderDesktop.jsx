@@ -374,13 +374,10 @@ const HeaderDesktop = ({
 
                 {/* ===== Shop (hover mega menu) ===== */}
                 <div className="relative group py-4">
-                  <Link
-                    to="/shop"
-                    className="text-gray-700 hover:text-blue-500 transition"
-                  >
-                    Shop
-                    <FiChevronDown className="w-4 h-4 inline-block ml-1" />
-                  </Link>
+          <div className="text-gray-700 hover:text-blue-500 transition cursor-pointer">
+  Shop
+  <FiChevronDown className="w-4 h-4 inline-block ml-1" />
+</div>
 
                   {/* Mega menu */}
                   <div className="absolute left-1/2 transform -translate-x-1/3 w-screen right-0 transition duration-300 ease-in-out z-50 opacity-0 hidden group-hover:!block group-hover:!opacity-100 mt-0 top-[102%] font-quicksand font-normal">

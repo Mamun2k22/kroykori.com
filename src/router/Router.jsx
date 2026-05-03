@@ -66,6 +66,8 @@ import AdminShippingSettings from "../components/ui/AdminShippingSettings";
 import GeneralSetting from "../components/ui/GeneralSetting";
 import ForgotPassword from "../pages/ForgotPassword";
 import OrderSuccess from "../pages/OrderSuccess";
+import KroyKoriAboutPage from "../components/about/AboutPag";
+import KroyKoriContactPage from "../components/contact/KroyKoriContactPage";
 
 const withBase = (p) => {
   const base = import.meta.env.VITE_APP_SERVER_URL || "";
@@ -89,6 +91,14 @@ export const router = createBrowserRouter([
         path: "product-details/:id",
         element: <ProductDetails />,
         loader: ({ params }) => fetch(withBase(`api/products/${params.id}`)),
+      },
+      {
+        path: "/about",
+        element: <KroyKoriAboutPage />,
+      },
+      {
+        path: "/contact",
+        element: <KroyKoriContactPage />,
       },
       {
         path: "/order-success",
