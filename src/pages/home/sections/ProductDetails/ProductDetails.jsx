@@ -17,6 +17,7 @@ import { addRecentlyViewed } from "../../../../utils/recentlyViewed";
 import ProductReviews from "../../../../components/reviews/ProductReviews";
 import { splitToBullets } from "../../../../utils/splitToBullets";
 import { getGuestId } from "../../../../hooks/guest";
+import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 
 /* ---------- helpers ---------- */
 const money = (n) => `৳ ${Number(n || 0).toLocaleString()}`;
@@ -233,6 +234,35 @@ const handleAddToCart = () => {
     },
   });
 };
+
+const phoneNumber = "01635129195";
+const whatsappNumber = "8801635129195";
+
+const handleWhatsAppOrder = () => {
+  if (!ensureSelections()) return;
+
+  const message = `Hello, I want to order this product:
+Product: ${productName}
+SKU: ${sku || "N/A"}
+Price: ${money(finalPrice)}
+Quantity: ${quantity}
+Size: ${selectedSize || "N/A"}
+Chest: ${selectedChest || "N/A"}
+Waist: ${selectedWaist || "N/A"}
+Color: ${selectedColor || "N/A"}`;
+
+  window.open(
+    `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
+    "_blank"
+  );
+};
+
+const handleCallOrder = () => {
+  window.location.href = `tel:${phoneNumber}`;
+};
+
+
+
 
   /* ---------- slider ---------- */
   const settings = {
@@ -583,31 +613,37 @@ const handleAddToCart = () => {
                 </div>
 
                 {/* Actions (desktop/tablet) */}
-                <div className="mt-7 hidden sm:flex flex-wrap gap-3">
-               <button
-  onClick={handleAddToCart}
-  disabled={!inStock}
-  className={`px-4 py-[8px] rounded-md font-semibold text-white
-    ${!inStock 
-      ? "bg-gray-400 cursor-not-allowed" 
-      : "bg-gradient-to-r from-fuchsia-600 to-indigo-600"}
-  `}
->
-  Add to Cart
-</button>
+               <div className="mt-7 hidden sm:grid grid-cols-2 gap-3">
+  <button
+    onClick={handleAddToCart}
+    className="px-4 py-3 rounded-md font-semibold text-white bg-orange-500 hover:bg-orange-600 transition"
+  >
+    Add to Cart
+  </button>
 
-<button
-  onClick={handleBuyNowClick}
-  disabled={!inStock}
-  className={`px-4 py-[8px] rounded-md font-semibold text-white
-    ${!inStock 
-      ? "bg-gray-400 cursor-not-allowed" 
-      : "bg-gradient-to-r from-blue-600 to-cyan-600"}
-  `}
->
-  Buy Now
-</button>
-                </div>
+  <button
+    onClick={handleBuyNowClick}
+    className="px-4 py-3 rounded-md font-semibold text-white bg-slate-950 hover:bg-slate-800 transition"
+  >
+    Buy Now
+  </button>
+
+  <button
+    onClick={handleWhatsAppOrder}
+    className="px-4 py-3 rounded-md font-semibold text-white bg-green-600 hover:bg-green-700 transition flex items-center justify-center gap-2"
+  >
+    <FaWhatsapp />
+    Order On WhatsApp
+  </button>
+
+  <button
+    onClick={handleCallOrder}
+    className="px-4 py-3 rounded-md font-semibold text-white bg-blue-900 hover:bg-blue-800 transition flex items-center justify-center gap-2"
+  >
+    <FaPhoneAlt />
+    Call For Order
+  </button>
+</div>
 
                 <p className="mt-4 text-xs text-slate-500 sm:hidden">
                   Tip: Choose required options before checkout.
@@ -696,35 +732,67 @@ const handleAddToCart = () => {
         </div>
 
         {/* Mobile sticky action bar */}
-        <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-t border-slate-200">
-          <div className="mx-auto max-w-full px-4 py-3 flex items-center gap-3">
-            <div className="min-w-[90px]">
-              <div className="text-base text-slate-500">Total</div>
-              <div className="text-base font-bold text-slate-900">
-                {money(finalPrice)}
-              </div>
-            </div>
-            <button
-              onClick={handleAddToCart}
-              className="flex-1 py-3 px-2 rounded-md font-semibold text-white
-                         bg-gradient-to-r from-fuchsia-600 to-indigo-600
-                         shadow-sm active:scale-[.99] transition text-[14px]"
-            >
-              Add to Cart
-            </button>
-            <button
-              onClick={handleBuyNowClick}
-              className="flex-1 px-3 py-3 rounded-md font-semibold text-white
-                         bg-gradient-to-r from-blue-600 to-cyan-600
-                         shadow-sm active:scale-[.99] transition text-[14px]"
-            >
-              Buy Now
-            </button>
-          </div>
-        </div>
+
+<div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 shadow-lg">
+  <div className="px-3 py-3">
+    
+    {/* Total */}
+    <div className="flex items-center justify-between mb-3">
+      <div>
+        <p className="text-xs text-slate-500">Total</p>
+        <h3 className="text-lg font-bold text-slate-900">
+          {money(finalPrice)}
+        </h3>
+      </div>
+    </div>
+
+    {/* Buttons */}
+    <div className="grid grid-cols-2 gap-2">
+      
+      <button
+        onClick={handleAddToCart}
+        className="py-3 rounded-md font-semibold text-white
+                   bg-orange-500 hover:bg-orange-600
+                   transition text-sm"
+      >
+        Add to Cart
+      </button>
+
+      <button
+        onClick={handleBuyNowClick}
+        className="py-3 rounded-md font-semibold text-white
+                   bg-slate-950 hover:bg-slate-800
+                   transition text-sm"
+      >
+        Buy Now
+      </button>
+
+      <button
+        onClick={handleWhatsAppOrder}
+        className="py-3 rounded-md font-semibold text-white
+                   bg-green-600 hover:bg-green-700
+                   transition text-sm flex items-center justify-center gap-2"
+      >
+        <FaWhatsapp />
+        WhatsApp
+      </button>
+
+      <button
+        onClick={handleCallOrder}
+        className="py-3 rounded-md font-semibold text-white
+                   bg-indigo-700 hover:bg-indigo-800
+                   transition text-sm flex items-center justify-center gap-2"
+      >
+        <FaPhoneAlt />
+        Call
+      </button>
+
+    </div>
+  </div>
+</div>
 
         {/* bottom padding for sticky bar */}
-        <div className="sm:hidden h-8" />
+        <div className="sm:hidden h-40" />
       </div>
 
       <div>

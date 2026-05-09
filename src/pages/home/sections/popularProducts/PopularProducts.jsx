@@ -199,7 +199,8 @@ const PopularProduct = () => {
                   : 0;
 
               const isOutOfStock =
-                product?.status === "out_of_stock" && stockNumber === 0;
+  product?.status === "out_of_stock" &&
+  Number(product?.stock) === 0;
 
               const imageSrc = Array.isArray(product?.productImage)
                 ? product.productImage[0]
