@@ -7,7 +7,6 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./router/Router.jsx";
 import { UserProvider } from "./hooks/userContext.jsx";
 import { SearchProvider } from "./context/SearchContext.jsx";
-import PixelPageView from "./components/PixelPageView.jsx";
 
 const queryClient = new QueryClient();
 
@@ -15,19 +14,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <HelmetProvider>
-
         <UserProvider>
           <SearchProvider>
             <div className="relative">
-
-              <PixelPageView />
-
               <RouterProvider router={router} />
-
             </div>
           </SearchProvider>
         </UserProvider>
-
       </HelmetProvider>
     </QueryClientProvider>
   </React.StrictMode>
