@@ -9,6 +9,7 @@ import { getGuestId } from "../hooks/guest";
 import OrderSummaryPanel from "../components/OrderSummaryPanel";
 import PaymentDetailsForm from "../components/PaymentDetailsForm";
 import useShippingSettings, { isCampaignActive } from "../hooks/useShippingSettings";
+import { trackPixel } from "../utils/metaPixel";
 
 const API_BASE = (import.meta.env.VITE_APP_SERVER_URL || "http://localhost:5000").replace(/\/$/, "");
 
@@ -245,23 +246,34 @@ const handleSubmit = async (e) => {
       body: JSON.stringify(orderData),
     });
 
-    if (response.ok) {
-      const data = await response.json().catch(() => ({}));
+   if (response.ok) {
+  const data = await response.json().catch(() => ({}));
 
-      toast.success("Order placed successfully!", {
-        position: "top-center",
-      });
+  trackPixel("Purchase", {
+    value: Number(totalPrice) || 0,
+    currency: "BDT",
+    content_ids: buynowItems.map((item) => item.productId),
+    content_type: "product",
+    num_items: buynowItems.reduce(
+      (total, item) => total + (Number(item.quantity) || 1),
+      0
+    ),
+  });
 
-      if (user) {
-        navigate("/dashboard/order");
-      } else {
-        navigate("/order-success", {
-          state: {
-            order: data?.order || null,
-          },
-        });
-      }
-    } else {
+  toast.success("Order placed successfully!", {
+    position: "top-center",
+  });
+
+  if (user) {
+    navigate("/dashboard/order");
+  } else {
+    navigate("/order-success", {
+      state: {
+        order: data?.order || null,
+      },
+    });
+  }
+} else {
       const errorData = await response.json().catch(() => ({}));
       toast.error(
         "There was an issue placing the order: " +

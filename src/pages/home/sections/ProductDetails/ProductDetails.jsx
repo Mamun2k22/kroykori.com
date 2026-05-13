@@ -18,6 +18,7 @@ import ProductReviews from "../../../../components/reviews/ProductReviews";
 import { splitToBullets } from "../../../../utils/splitToBullets";
 import { getGuestId } from "../../../../hooks/guest";
 import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
+import { trackPixel } from "../../../../utils/metaPixel";
 
 /* ---------- helpers ---------- */
 const money = (n) => `৳ ${Number(n || 0).toLocaleString()}`;
@@ -67,7 +68,17 @@ export default function ProductDetails() {
   useEffect(() => {
     if (product?._id) addRecentlyViewed(product);
   }, [product?._id]);
+useEffect(() => {
+  if (!_id) return;
 
+  trackPixel("ViewContent", {
+    content_name: productName,
+    content_ids: [_id],
+    content_type: "product",
+    value: Number(finalPrice) || 0,
+    currency: "BDT",
+  });
+}, [_id]);
 
   
   useEffect(() => {
@@ -193,6 +204,26 @@ const ensureSelections = () => {
   return true;
 };
 
+// const handleAddToCart = () => {
+//   if (!inStock) {
+//     toast.error("এই প্রোডাক্টটি স্টকে নেই");
+//     return;
+//   }
+
+//   if (!ensureSelections()) return;
+
+//   addToCart({
+//     userId: user?.id || null,
+//     guestId: !user ? guestId : null,
+//     productId: _id,
+//     quantity,
+//     selectedSize,
+//     selectedChest,
+//     selectedWaist,
+//     selectedColor,
+//   });
+// };
+
 const handleAddToCart = () => {
   if (!inStock) {
     toast.error("এই প্রোডাক্টটি স্টকে নেই");
@@ -200,6 +231,15 @@ const handleAddToCart = () => {
   }
 
   if (!ensureSelections()) return;
+
+  trackPixel("AddToCart", {
+    content_name: productName,
+    content_ids: [_id],
+    content_type: "product",
+    value: Number(finalPrice) * quantity,
+    currency: "BDT",
+    num_items: quantity,
+  });
 
   addToCart({
     userId: user?.id || null,
@@ -213,8 +253,38 @@ const handleAddToCart = () => {
   });
 };
 
- const handleBuyNowClick = () => {
+
+//  const handleBuyNowClick = () => {
+//   if (!ensureSelections()) return;
+
+//   navigate("/buy-checkout", {
+//     state: {
+//       productDetails: {
+//         userId: user?.id || null,
+//         guestId: !user ? guestId : null,
+//         productId: _id,
+//         quantity,
+//         selectedSize,
+//         selectedChest,
+//         selectedWaist,
+//         selectedColor,
+//         price: finalPrice,
+//         productImage,
+//         productName,
+//       },
+//     },
+//   });
+// };
+const handleBuyNowClick = () => {
   if (!ensureSelections()) return;
+
+  trackPixel("InitiateCheckout", {
+    value: Number(finalPrice) * quantity,
+    currency: "BDT",
+    content_ids: [_id],
+    content_type: "product",
+    num_items: quantity,
+  });
 
   navigate("/buy-checkout", {
     state: {

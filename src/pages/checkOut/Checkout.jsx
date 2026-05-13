@@ -11,6 +11,7 @@ import { getGuestId } from "../../hooks/guest";
 import useShippingSettings, {
   isCampaignActive,
 } from "../../hooks/useShippingSettings";
+import { trackPixel } from "../../utils/metaPixel";
 
 const API_BASE = (
   import.meta.env.VITE_APP_SERVER_URL || "http://localhost:5000"
@@ -242,23 +243,34 @@ const BuyCheckout = () => {
         body: JSON.stringify(orderData),
       });
 
-      if (res.ok) {
-        const data = await res.json().catch(() => ({}));
+     if (res.ok) {
+  const data = await res.json().catch(() => ({}));
 
-        toast.success("Order placed successfully!", {
-          position: "top-center",
-        });
+  trackPixel("Purchase", {
+    value: Number(totalPrice) || 0,
+    currency: "BDT",
+    content_ids: cart.map((item) => item.productId?._id),
+    content_type: "product",
+    num_items: cart.reduce(
+      (total, item) => total + (Number(quantities?.[item._id]) || 1),
+      0
+    ),
+  });
 
-        if (user) {
-          navigate("/dashboard/order");
-        } else {
-          navigate("/order-success", {
-            state: {
-              order: data?.order || null,
-            },
-          });
-        }
-      } else {
+  toast.success("Order placed successfully!", {
+    position: "top-center",
+  });
+
+  if (user) {
+    navigate("/dashboard/order");
+  } else {
+    navigate("/order-success", {
+      state: {
+        order: data?.order || null,
+      },
+    });
+  }
+} else {
         const err = await res.json().catch(() => ({}));
         toast.error(err.message || "Failed to place order. Please try again.", {
           position: "top-center",
